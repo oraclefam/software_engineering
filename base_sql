@@ -16,6 +16,9 @@ CREATE TABLE user(
   user_total INT(255) NOT NULL,
   user_notif TEXT NOT NULL,
   PRIMARY KEY(email),
+  CONSTRAINT FRIEND
+  FOREIGN KEY (email) REFERENCES friend(user_email)
+  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE organization(
@@ -27,6 +30,9 @@ CREATE TABLE organization(
   desc_org TEXT NOT NULL,
   org_total INT(255),
   PRIMARY KEY(website),
+  CONSTRAINT CREATARTIC
+  FOREIGN KEY (name_org) REFERENCES articles(author_art)
+  ON DELETE CASCADE ON UPDATE CASCADE 
 );
 
 CREATE TABLE admin(
@@ -35,6 +41,9 @@ CREATE TABLE admin(
   pass_admin VARCHAR(255) NOT NULL,
   approval_id INT(255) NOT NULL,
   PRIMARY KEY(email_admin),
+  CONSTRAINT APPRADM
+  FOREIGN KEY (approval_id) REFERENCES funds(approval_stat)
+  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE teams(
@@ -45,6 +54,9 @@ CREATE TABLE teams(
   team_desc TEXT NOT NULL,
   team_id INT(255) NOT NULL,
   PRIMARY KEY(team_id),
+  CONSTRAINT TEAMMEM
+  FOREIGN KEY (team_memb) REFERENCES members(mem_id)
+  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE events(
@@ -54,6 +66,9 @@ CREATE TABLE events(
   desc_event TEXT NOT NULL,
   event_progress VARCHAR(255) NOT NULL,
   PRIMARY KEY(id_event),
+  CONSTRAINT NOTIFEV
+  FOREIGN KEY (event_title) REFERENCES notification(event_name)
+  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE join_event(
@@ -61,6 +76,9 @@ CREATE TABLE join_event(
   interest_stat ENUM('interested','i will go') DEFAULT NULL,
   join_mem VARCHAR(255) NOT NULL,
   PRIMARY KEY(id_join_ev),
+  CONSTRAINT JOINEV
+  FOREIGN KEY (join_mem) REFERENCES members(mem_id)
+  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE daily_plan(
@@ -70,6 +88,9 @@ CREATE TABLE daily_plan(
   id_plan INT(255) NOT NULL,
   user_feed VARCHAR(255) NOT NULL,
   PRIMARY KEY(id_plan),
+  CONSTRAINT FEEDEVENTS
+  FOREIGN KEY (user_feed) REFERENCES events(id_event)
+  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE messages(
@@ -79,6 +100,9 @@ CREATE TABLE messages(
   user_dest TEXT NOT NULL,
   crop_image VARCHAR(255) NOT NULL,
   PRIMARY KEY(user_init),
+  CONSTRAINT MESSAGEXCH
+  FOREIGN KEY (user_init) REFERENCES user(user_id)
+  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE friend(
@@ -102,6 +126,12 @@ CREATE TABLE funds(
   user_idfund INT(255) NOT NULL,
   current_funds INT(255),
   PRIMARY KEY(id_fund),
+  CONSTRAINT FUNDIDENT
+  FOREIGN KEY (id_fund) REFERENCES donate(fund_id)
+  ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT USERFUND
+  FOREIGN KEY (user_idfund) REFERENCES user(user_id)
+  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE articles(
@@ -128,6 +158,9 @@ CREATE TABLE members(
   inform_message TEXT NOT NULL,
   mem_id INT(255) NOT NULL,
   PRIMARY KEY(mem_id),
+  CONSTRAINT MEMEVENTS
+  FOREIGN KEY (event_name) REFERENCES events(event_title)
+  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE donate(
@@ -137,4 +170,7 @@ CREATE TABLE donate(
   config_mess TEXT NOT NULL,
   error_mess TEXT NOT NULL,
   PRIMARY KEY(patreon_id),
+  CONSTRAINT DONATEUS
+  FOREIGN KEY (patreon_id) REFERENCES user(user_id)
+  ON DELETE CASCADE ON UPDATE CASCADE
 );
