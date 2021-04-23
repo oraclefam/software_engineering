@@ -1,1 +1,140 @@
+CREATE TABLE user(
+  email VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  surname VARCHAR(255) NOT NULL,
+  pass VARCHAR(255),
+  country VARCHAR(25) NOT NULL,
+  location VARCHAR(25) NOT NULL,
+  post_id INT(15) NOT NULL,
+  phon_num INT(255) NOT NULL,
+  occup_stat ENUM ('student','employed','uemployed','retired'.'Prefer not to mention') DEFAULT NULL,
+  account_stat EMUN ('volunteer','Funding') DEFAULT NULL,
+  username VARCHAR(255) NOT NULL,
+  picture VARCHAR(255) NOT NULL 
+  desc_user TEXT NOT NULL,
+  user_id INT(255) NOT NULL,
+  user_total INT(255) NOT NULL,
+  user_notif TEXT NOT NULL,
+  PRIMARY KEY(email),
+);
 
+CREATE TABLE organization(
+  name_org VARCHAR(255) NOT NULL,
+  website VARCHAR(255) NOT NULL,
+  size_org ENUM ('Small','Medium to Large','Public') DEFAULT NULL,
+  industry VARCHAR(255) NOT NULL,
+  logo_pic VARCHAR(255) NOT NULL,
+  desc_org TEXT NOT NULL,
+  org_total INT(255),
+  PRIMARY KEY(website),
+);
+
+CREATE TABLE admin(
+  email_admin VARCHAR(255) NOT NULL,
+  id_num INT(255) NOT NULL,
+  pass_admin VARCHAR(255) NOT NULL,
+  approval_id INT(255) NOT NULL,
+  PRIMARY KEY(email_admin),
+);
+
+CREATE TABLE teams(
+  name_team VARCHAR(255) NOT NULL,
+  logo_team VARCHAR(255) NOT NULL,
+  team_size INT(255) NOT NULL,
+  team_memb VARCHAR(255) NOT NULL,
+  team_desc TEXT NOT NULL,
+  team_id INT(255) NOT NULL,
+  PRIMARY KEY(team_id),
+);
+
+CREATE TABLE events(
+  id_event INT(255) NOT NULL,
+  event_title VARCHAR(255) NOT NULL,
+  date_ev DATE NOT NULL,
+  desc_event TEXT NOT NULL,
+  event_progress VARCHAR(255) NOT NULL,
+  PRIMARY KEY(id_event),
+);
+
+CREATE TABLE join_event(
+  id_join_ev INT(255) NOT NULL,
+  interest_stat ENUM('interested','i will go') DEFAULT NULL,
+  join_mem VARCHAR(255) NOT NULL,
+  PRIMARY KEY(id_join_ev),
+);
+
+CREATE TABLE daily_plan(
+  date_plan DATE NOT NULL,
+  desc_plan TEXT NOT NULL,
+  plan_title VARCHAR(255) NOT NULL,
+  id_plan INT(255) NOT NULL,
+  user_feed VARCHAR(255) NOT NULL,
+  PRIMARY KEY(id_plan),
+);
+
+CREATE TABLE messages(
+  message_cat VARCHAR(255) NOT NULL,
+  date_exch DATE NOT NULL,
+  user_init TEXT NOT NULL,
+  user_dest TEXT NOT NULL,
+  crop_image VARCHAR(255) NOT NULL,
+  PRIMARY KEY(user_init),
+);
+
+CREATE TABLE friend(
+  friend_id INT(255) NOT NULL,
+  user_friends VARCHAR(255) NOT NULL,
+  user_email VARCHAR(255) NOT NULL,
+  friend_image VARCHAR(255) NOT NULL,
+  PRIMARY KEY(user_email),
+);
+
+CREATE TABLE funds(
+  id_fund INT(255) NOT NULL,
+  min_donate INT(255) NOT NULL,
+  fund_title VARCHAR(255) NOT NULL,
+  payment EMUN('mastercard','debit','credit','paypal')
+  donate_cat
+  desc_donate TEXT NOT NULL,
+  aprroval_stat ENUM('approved','rejected') NOT NULL,
+  fund_logo VARCHAR(255) NOT NULL,
+  fund_goal INT(255),
+  user_idfund INT(255) NOT NULL,
+  current_funds INT(255),
+  PRIMARY KEY(id_fund),
+);
+
+CREATE TABLE articles(
+  article_id INT(255) NOT NULL,
+  article_title VARCHAR(255) NOT NULL,
+  desc_article TEXT NOT NULL,
+  author_art VARCHAR(255) NOT NULL,
+  date_posted DATE NOT NULL,
+  article_image VARCHAR(255) NOT NULL,
+  PRIMARY KEY(article_id),
+);
+
+CREATE TABLE notification(
+  notif_id INT(255) NOT NULL,
+  event_name VARCHAR(255) NOT NULL,
+  desc_notif TEXT NOT NULL,
+  event_desc TEXT NOT NULL,
+  PRIMARY KEY(notif_id),
+);
+
+CREATE TABLE members(
+  event_nam VARCHAR(255) NOT NULL,
+  num_memb INT(255) NOT NULL,
+  inform_message TEXT NOT NULL,
+  mem_id INT(255) NOT NULL,
+  PRIMARY KEY(mem_id),
+);
+
+CREATE TABLE donate(
+  patreon_id INT(255) NOT NULL,
+  fund_id INT(255) NOT NULL,
+  payment_stat ('successful','failed')
+  config_mess TEXT NOT NULL,
+  error_mess TEXT NOT NULL,
+  PRIMARY KEY(patreon_id),
+);
