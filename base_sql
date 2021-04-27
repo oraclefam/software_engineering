@@ -1,5 +1,5 @@
 CREATE TABLE user(
-  email VARCHAR(255) NOT NULL,
+  email VARCHAR(250) NOT NULL,
   name VARCHAR(255) NOT NULL,
   surname VARCHAR(255) NOT NULL,
   pass VARCHAR(255),
@@ -7,16 +7,15 @@ CREATE TABLE user(
   location VARCHAR(25) NOT NULL,
   post_id INT(15) NOT NULL,
   phon_num INT(255) NOT NULL,
-  occup_stat ENUM ('student','employed','uemployed','retired'.'Prefer not to mention') DEFAULT NULL,
-  account_stat EMUN ('volunteer','Funding') DEFAULT NULL,
+  occup_stat ENUM ('student','employed','uemployed','retired','Prefer not to mention') DEFAULT NULL,
+  account_stat ENUM ('volunteer','Funding') DEFAULT NULL,
   username VARCHAR(255) NOT NULL,
   picture_nam VARCHAR(255) NOT NULL,
   picfile_name VARCHAR(255),
-  picture_data VARBINARY(max),
-  desc_user TEXT NOT NULL,
+  desc_user TEXT,
   user_id INT(255) NOT NULL,
   user_total INT(255) NOT NULL,
-  user_notif TEXT NOT NULL,
+  user_notif TEXT,
   PRIMARY KEY(email),
   CONSTRAINT FRIEND
   FOREIGN KEY (email) REFERENCES friend(user_email)
@@ -25,12 +24,11 @@ CREATE TABLE user(
 
 CREATE TABLE organization(
   name_org VARCHAR(255) NOT NULL,
-  website VARCHAR(255) NOT NULL,
+  website VARCHAR(250) NOT NULL,
   size_org ENUM ('Small','Medium to Large','Public') DEFAULT NULL,
   industry VARCHAR(255) NOT NULL,
   logo_pic VARCHAR(255) NOT NULL,
   logofile_name VARCHAR(255),
-  logo_data VARBINARY(max),
   desc_org TEXT NOT NULL,
   org_total INT(255),
   PRIMARY KEY(website),
@@ -40,7 +38,7 @@ CREATE TABLE organization(
 );
 
 CREATE TABLE admin(
-  email_admin VARCHAR(255) NOT NULL,
+  email_admin VARCHAR(250) NOT NULL,
   id_num INT(255) NOT NULL,
   pass_admin VARCHAR(255) NOT NULL,
   approval_id INT(255) NOT NULL,
@@ -54,7 +52,6 @@ CREATE TABLE teams(
   name_team VARCHAR(255) NOT NULL,
   logo_team VARCHAR(255) NOT NULL,
   teamlogo_f VARCHAR(255),
-  teamlogo_data VARBINARY(max),
   team_size INT(255) NOT NULL,
   team_memb VARCHAR(255) NOT NULL,
   team_desc TEXT NOT NULL,
@@ -102,11 +99,10 @@ CREATE TABLE daily_plan(
 CREATE TABLE messages(
   message_cat VARCHAR(255) NOT NULL,
   date_exch DATE NOT NULL,
-  user_init TEXT NOT NULL,
+  user_init VARCHAR(250) NOT NULL,
   user_dest TEXT NOT NULL,
   crop_image VARCHAR(255) NOT NULL, 
   crop_fname VARCHAR(255),
-  crop_data VARBINARY(max),
   PRIMARY KEY(user_init),
   CONSTRAINT MESSAGEXCH
   FOREIGN KEY (user_init) REFERENCES user(user_id)
@@ -116,31 +112,29 @@ CREATE TABLE messages(
 CREATE TABLE friend(
   friend_id INT(255) NOT NULL,
   user_friends VARCHAR(255) NOT NULL,
-  user_email VARCHAR(255) NOT NULL,
+  user_email VARCHAR(250) NOT NULL,
   friend_image VARCHAR(255) NOT NULL,
   frifile_nam VARCHAR(255),
-  fri_data VARBINARY(max),
-  PRIMARY KEY(user_email),
+  PRIMARY KEY(user_email)
 );
 
 CREATE TABLE funds(
   id_fund INT(255) NOT NULL,
   min_donate INT(255) NOT NULL,
   fund_title VARCHAR(255) NOT NULL,
-  payment EMUN('mastercard','debit','credit','paypal')
-  donate_cat
+  payment ENUM('mastercard','debit','credit','paypal') DEFAULT NULL,
+  donate_cat ENUM('individual','team') DEFAULT NULL,
   desc_donate TEXT NOT NULL,
-  aprroval_stat ENUM('approved','rejected') NOT NULL,
+  aprroval_stat ENUM('approved','rejected') DEFAULT NULL,
   fund_logo VARCHAR(255) NOT NULL,
   logofunfile VARCHAR(255),
-  fundlog_data VARBINARY(max),
   fund_goal INT(255),
   user_idfund INT(255) NOT NULL,
   current_funds INT(255),
   PRIMARY KEY(id_fund),
   CONSTRAINT FUNDIDENT
   FOREIGN KEY (id_fund) REFERENCES donate(fund_id)
-  ON DELETE CASCADE ON UPDATE CASCADE
+  ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT USERFUND
   FOREIGN KEY (user_idfund) REFERENCES user(user_id)
   ON DELETE CASCADE ON UPDATE CASCADE
@@ -153,7 +147,7 @@ CREATE TABLE articles(
   author_art VARCHAR(255) NOT NULL,
   date_posted DATE NOT NULL,
   article_image VARCHAR(255) NOT NULL,
-  PRIMARY KEY(article_id),
+  PRIMARY KEY(article_id)
 );
 
 CREATE TABLE notification(
@@ -161,7 +155,7 @@ CREATE TABLE notification(
   event_name VARCHAR(255) NOT NULL,
   desc_notif TEXT NOT NULL,
   event_desc TEXT NOT NULL,
-  PRIMARY KEY(notif_id),
+  PRIMARY KEY(notif_id)
 );
 
 CREATE TABLE members(
@@ -171,14 +165,14 @@ CREATE TABLE members(
   mem_id INT(255) NOT NULL,
   PRIMARY KEY(mem_id),
   CONSTRAINT MEMEVENTS
-  FOREIGN KEY (event_name) REFERENCES events(event_title)
+  FOREIGN KEY (event_nam) REFERENCES events(event_title)
   ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE donate(
   patreon_id INT(255) NOT NULL,
   fund_id INT(255) NOT NULL,
-  payment_stat ('successful','failed')
+  payment_stat ENUM ('successful','failed') DEFAULT NULL,
   config_mess TEXT NOT NULL,
   error_mess TEXT NOT NULL,
   PRIMARY KEY(patreon_id),
